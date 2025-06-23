@@ -14,8 +14,7 @@ import (
 func ServerHTTP() {
 	d := dependencyInject()
 
-	healtcheckSvc := &services.Healthcheck{
-	}
+	healtcheckSvc := &services.Healthcheck{}
 	healtcheckAPI := &api.Healthcheck{
 		HealthcheckServices: healtcheckSvc,
 	}
@@ -23,10 +22,10 @@ func ServerHTTP() {
 	r := gin.New()
 	r.GET("/health", healtcheckAPI.HealthCheckHandlerHTTP)
 
-	walletV1 := r.Group("/wallet/v1")
+	walletV1 := r.Group("/wallet/v1/")
 	walletV1.POST("/", d.WalletAPI.Create)
 
-	err := r.Run(":" + helpers.GetEnv("PORT","8082"))
+	err := r.Run(":" + helpers.GetEnv("PORT", "8082"))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -35,7 +34,7 @@ func ServerHTTP() {
 type Dependency struct {
 	HealthcheckAPI interfaces.IHealthcheckAPI
 	WalletAPI      interfaces.IWalletAPI
-// 	External       interfaces.IExternal
+	// External       interfaces.IExternal
 }
 
 func dependencyInject() Dependency {

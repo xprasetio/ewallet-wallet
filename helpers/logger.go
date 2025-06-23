@@ -3,6 +3,7 @@ package helpers
 import "github.com/sirupsen/logrus"
 
 var Loggger *logrus.Logger
+
 func SetupLogger() {	
 
 	log := logrus.New()
